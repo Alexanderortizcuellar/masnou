@@ -1,0 +1,8 @@
+<RCC>
+  <qresource prefix="images/">
+    <file>images/update.png</file>
+    <file>images/new-tournament.png</file>
+    <file>images/players.png</file>
+    <file>images/delete.png</file>
+  </qresource>
+</RCC>
