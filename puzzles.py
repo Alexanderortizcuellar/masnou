@@ -5,7 +5,8 @@ import json
 from io import StringIO
 import random
 
-with open("all.json", "r", encoding="utf-8", errors="ignore") as f:
+with open("puzzles.json", "r", encoding="utf-8", errors="ignore") as f:
+    #print(f.read())
     data = json.load(f)
     index = random.randint(0, len(data) - 1)
     data = data[index]

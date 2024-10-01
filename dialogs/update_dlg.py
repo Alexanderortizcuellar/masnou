@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from updatedlg_ui import Ui_Form
+from dialogs.updatedlg_ui import Ui_Form
 from functools import partial
 import gc
 
@@ -24,7 +24,7 @@ class UpdateDialog(QtWidgets.QWidget, Ui_Form):
             col_num = i % 5
             row_num = i // 5
             print(row_num, col_num)
-            button = QtWidgets.QPushButton(f"{row[0]}\n\n{row[2]}\n Vs. \n{row[4]}")
+            button = QtWidgets.QPushButton(f"{row[0] + 1}\n\n{row[2]}\n Vs. \n{row[4]}")
             button.setToolTip(str(row[2] + " Vs. " + row[4]))
             button.setSizePolicy(
                 QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
@@ -68,7 +68,7 @@ class UpdateDialog(QtWidgets.QWidget, Ui_Form):
         self.checks_layout.addWidget(player1_box)
         self.checks_layout.addWidget(draw)
         self.checks_layout.addWidget(player2_box)
-        self.checks_container.setTitle(f"Seleccione el ganador de la mesa: {data[0]}")
+        self.checks_container.setTitle(f"Seleccione el ganador de la mesa: {data[0] + 1}")
 
     def accept(self):
         for i in range(self.checks_layout.count()):
@@ -81,7 +81,7 @@ class UpdateDialog(QtWidgets.QWidget, Ui_Form):
                             {
                                 "spot": int(
                                     self.checks_container.title().split(":")[1].strip()
-                                ),
+                                ) - 1,
                                 "winner": int(w.objectName().split("-")[1].strip())
                             }
                         )

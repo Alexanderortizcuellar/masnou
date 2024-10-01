@@ -26,6 +26,57 @@ class FilaModel(QtCore.QAbstractListModel):
         return False
 
 
+class PairingModel(QtCore.QAbstractTableModel):
+    def __init__(self, parent, rounds_data: list) -> None:
+        super().__init__(parent)
+        self.pairing_data = rounds_data
+        self.headers = ["Primera fila", "Segunda fila"]
+
+    def rowCount(self, index):
+        return len(self.pairing_data)
+
+    def columnCount(self, index):
+        return len(self.headers)
+
+    def data(self, index, role):
+        if role == QtCore.Qt.DisplayRole or role == QtCore.Qt.EditRole:
+            return self.pairing_data[index.row()][index.column()]
+
+    def headerData(self, section, orientation, role):
+        if role == QtCore.Qt.DisplayRole:
+            if orientation == QtCore.Qt.Horizontal:
+                return self.headers[section]
+
+    def flags(self, index) -> QtCore.Qt.ItemFlags:
+        return (
+            QtCore.Qt.ItemIsSelectable
+            | QtCore.Qt.ItemIsEnabled
+            | QtCore.Qt.ItemIsEditable
+        )
+
+    def setData(self, index, value, role):
+        if role == QtCore.Qt.EditRole:
+            row = index.row()
+            column = index.column()
+            self.pairing_data[row][column] = value
+        return False
+
+    def removeRows(self, position, rows, parent=QtCore.QModelIndex()):
+        self.beginRemoveRows(parent, position, position + rows - 1)
+        self.pairing_data.pop(position)
+        self.endRemoveRows()
+        self.layoutChanged.emit()
+        return True
+
+    def insertRows(self, position, rows, parent=QtCore.QModelIndex()):
+        self.beginInsertRows(parent, position, position + rows - 1)
+        length = len(self.headers)
+        self.pairing_data.insert(position, [0 for _ in range(length)])
+        self.endInsertRows()
+        self.layoutChanged.emit()
+        return True
+
+
 class RoundsModel(QtCore.QAbstractTableModel):
     def __init__(self, parent, rounds_data: list) -> None:
         super().__init__(parent)
@@ -118,10 +169,9 @@ class TableModel(QtCore.QAbstractTableModel):
         if role == QtCore.Qt.DisplayRole or role == QtCore.Qt.EditRole:
             if isinstance(value, float):
                 if value == 0.5:
-                    return "\u00BD"
-                return str(value).replace(".5", "\u00BD")
+                    return "\u00bd"
+                return str(value).replace(".5", "\u00bd")
             return str(value)
-
 
     def headerData(self, section, orientation, role):
         if role == QtCore.Qt.DisplayRole:
@@ -162,8 +212,10 @@ class PlayersModel(QtCore.QAbstractTableModel):
     def __init__(self, parent, players_data) -> None:
         super().__init__(parent)
         self.players_data = players_data
-        self.headers = self.players_data[0]
-        self.players_data.remove(self.headers)
+        self.headers = self.players_data[0] if len(self.players_data) > 0 else []
+        if len(self.headers) > 0 and self.headers in self.players_data:
+            self.players_data.remove(self.headers)
+        self.parent = parent
 
     def rowCount(self, index):
         return len(self.players_data)
@@ -203,8 +255,10 @@ class PlayersModel(QtCore.QAbstractTableModel):
 
     def insertRows(self, position, rows, parent=QtCore.QModelIndex()):
         self.beginInsertRows(parent, position, position + rows - 1)
-        legth = len(self.headers)
-        self.players_data.insert(position, ["" for _ in range(legth)])
+        length = len(self.headers)
+        row_data = ["" for _ in range(length)]
+        row_data[0] = 0 # pyright: ignore
+        self.players_data.insert(position, row_data)
         self.endInsertRows()
         self.layoutChanged.emit()
         return True

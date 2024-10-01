@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>887</width>
-    <height>831</height>
+    <width>891</width>
+    <height>829</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -252,6 +252,167 @@ QPushButton:focus {
            </spacer>
           </item>
           <item>
+           <widget class="QPushButton" name="next_screen_2">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+	font-size:17px;
+	border:1px solid black;
+	width:100px;
+}
+
+QPushButton:pressed {
+	border:1px solid blue;
+	background-color: rgba(0, 85, 255, 40);
+}
+
+QPushButton:focus {
+	border:1px solid blue;
+}</string>
+            </property>
+            <property name="text">
+             <string>Siguiente</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="page_3">
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Opciones de jugadores</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="frame_4">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QFormLayout" name="formLayout_2">
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_8">
+            <property name="text">
+             <string>Jugadores en el tablero</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_9">
+            <property name="text">
+             <string>Jugadores en la fila</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="jugadores_tablero">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QSpinBox" name="jugadores_cola">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_10">
+            <property name="text">
+             <string>Numero de jugadores</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="total_jugadores"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="check_emparejamientos">
+         <property name="text">
+          <string>emparejamientos manuales</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTableView" name="emparejamientos_table">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="frame_5">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QPushButton" name="previous_screen_last">
+            <property name="text">
+             <string>Regresar</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>345</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
            <widget class="QDialogButtonBox" name="buttonBox">
             <property name="standardButtons">
              <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
@@ -267,6 +428,38 @@ QPushButton:focus {
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>tour_name</tabstop>
+  <tabstop>tour_place</tabstop>
+  <tabstop>tour_organizer</tabstop>
+  <tabstop>tour_date</tabstop>
+  <tabstop>comboBox</tabstop>
+  <tabstop>next_screen</tabstop>
+  <tabstop>player_table</tabstop>
+  <tabstop>previous_screen</tabstop>
+  <tabstop>next_screen_2</tabstop>
+  <tabstop>total_jugadores</tabstop>
+  <tabstop>jugadores_tablero</tabstop>
+  <tabstop>jugadores_cola</tabstop>
+  <tabstop>previous_screen_last</tabstop>
+ </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>check_emparejamientos</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>emparejamientos_table</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>26</x>
+     <y>197</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>88</x>
+     <y>283</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

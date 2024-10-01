@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(994, 717)
+        Form.resize(988, 713)
         self.verticalLayout = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout.setObjectName("verticalLayout")
         self.spots_container = QtWidgets.QFrame(Form)
@@ -51,7 +51,7 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
+        Form.setWindowTitle(_translate("Form", "Actualizar Torneo"))
         self.checks_container.setTitle(_translate("Form", "Seleccione el ganador"))
         self.accept_btn.setText(_translate("Form", "Aceptar"))
         self.pushButton_2.setText(_translate("Form", "Cancelar"))

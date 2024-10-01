@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1021</width>
-    <height>820</height>
+    <width>1074</width>
+    <height>851</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -270,6 +270,9 @@ QPushButton {
            <enum>QFrame::Raised</enum>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4">
+           <property name="topMargin">
+            <number>0</number>
+           </property>
            <item>
             <widget class="QLabel" name="tournament_title">
              <property name="text">
@@ -286,6 +289,12 @@ QPushButton {
               <enum>QFrame::Raised</enum>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,1,0">
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
               <item>
                <widget class="QTableView" name="score_table">
                 <property name="font">
@@ -334,6 +343,12 @@ QPushButton {
            <string>Opciones</string>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <property name="topMargin">
+            <number>6</number>
+           </property>
+           <property name="bottomMargin">
+            <number>6</number>
+           </property>
            <item>
             <spacer name="horizontalSpacer_3">
              <property name="orientation">
@@ -432,13 +447,6 @@ QPushButton {
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_6">
               <item>
-               <widget class="QPushButton" name="add_fila_btn">
-                <property name="text">
-                 <string>Añadir</string>
-                </property>
-               </widget>
-              </item>
-              <item>
                <widget class="QPushButton" name="del_fila_btn">
                 <property name="text">
                  <string>Borrar</string>
@@ -446,14 +454,14 @@ QPushButton {
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_4">
+               <widget class="QPushButton" name="mv_up_fila_btn">
                 <property name="text">
                  <string>Mover Arriba</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_5">
+               <widget class="QPushButton" name="mv_down_fila_btn">
                 <property name="text">
                  <string>Mover Abajo</string>
                 </property>
@@ -682,7 +690,7 @@ QPushButton {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1021</width>
+     <width>1074</width>
      <height>26</height>
     </rect>
    </property>
@@ -700,6 +708,8 @@ QPushButton {
     <addaction name="action_Nuevo_Torneo"/>
     <addaction name="action_Terminar_Torneo"/>
     <addaction name="action_Exportar_2"/>
+    <addaction name="action_pareo_de_fila"/>
+    <addaction name="action_Cambiar_Color"/>
    </widget>
    <widget class="QMenu" name="menu_Players">
     <property name="title">
@@ -840,7 +850,49 @@ QPushButton {
     <string>&amp;Menú</string>
    </property>
   </action>
+  <action name="action_pareo_de_fila">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>&amp;pareo de fila</string>
+   </property>
+  </action>
+  <action name="action_Cambiar_Color">
+   <property name="text">
+    <string>&amp;Cambiar Color</string>
+   </property>
+  </action>
  </widget>
+ <tabstops>
+  <tabstop>comboBox</tabstop>
+  <tabstop>menu_btn_create</tabstop>
+  <tabstop>pushButton_10</tabstop>
+  <tabstop>menu_btn_go_tour</tabstop>
+  <tabstop>menu_btn_finish</tabstop>
+  <tabstop>menu_btn_quit</tabstop>
+  <tabstop>score_table</tabstop>
+  <tabstop>rondas_main_table</tabstop>
+  <tabstop>fila_list</tabstop>
+  <tabstop>update_button</tabstop>
+  <tabstop>edit_players_button</tabstop>
+  <tabstop>ver_fila_button</tabstop>
+  <tabstop>ver_rondas_button</tabstop>
+  <tabstop>finish_button</tabstop>
+  <tabstop>fila_list_main</tabstop>
+  <tabstop>del_fila_btn</tabstop>
+  <tabstop>mv_up_fila_btn</tabstop>
+  <tabstop>mv_down_fila_btn</tabstop>
+  <tabstop>sort_fila_btn</tabstop>
+  <tabstop>save_changes_fila</tabstop>
+  <tabstop>players_table</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>players_save_changes</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>rondas_table</tabstop>
+  <tabstop>rondas_save_changes</tabstop>
+  <tabstop>rondas_history_table</tabstop>
+ </tabstops>
  <resources>
   <include location="images.qrc"/>
  </resources>

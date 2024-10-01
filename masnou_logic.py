@@ -1,3 +1,4 @@
+import datetime
 import random
 from more_itertools import grouper
 from rich.table import Table
@@ -7,8 +8,9 @@ from rich.console import Console
 class Masnou:
     def __init__(self) -> None:
         self.side = "white"
+        self.time = datetime.datetime.now()
 
-    def create_tournament(self, players: dict):
+    def create_tournament(self, players: list[dict], options: dict):
         self.players = players
         self.table = [
             {"id": player["ID_no"], "name": player["Name"], "matches": [], "score": 0}
@@ -18,14 +20,52 @@ class Masnou:
         self.ids = [player["id"] for player in self.table]
         self.cola = []
         self.groups = {}
-        self.assign()
+        # get the number of players thayt will start playing to determine how many will be on the queue
+        # self.assign(options["num_players_board"])
+        self.create_pairings(options["num_players_board"])
 
-    def assign(self):
-        first = self.ids[:12]
-        self.cola = self.ids[12:]
+    def add_player(self, data: dict, score: int | float = 0):
+        if data["ID_no"] in self.ids:
+            return None
+        if data.get("ID_no") is None or data.get("Name") is None:
+            return None
+        self.table.append(
+            {"id": data["ID_no"], "name": data["Name"], "matches": [], "score": score}
+        )
+
+        self.players.append(data)
+        self.ids.append(data["ID_no"])
+        self.cola.append(data["ID_no"])
+
+        return True
+
+    def delete_player(self, id):
+        self.table = [player for player in self.table if player["id"] != id]
+        self.ids = [player["id"] for player in self.table]
+        if id in self.cola:
+            self.cola.remove(id)
+            return
+        for key, spot in self.groups.items():
+            for index, player in enumerate(spot):
+                if player == id:
+                    if len(self.cola) > 0:
+                        self.groups[key][index] = self.cola[0]
+                        self.cola.pop(0)
+                        return
+                    else:
+                        other_player = 1 if index == 0 else 0
+                        self.cola.insert(0, spot[other_player])
+                        self.groups.pop(key)
+                        return
+
+    def assign(self, num_players):
+        first = self.ids[:num_players]
+        if len(self.players) == num_players:
+            self.cola = []
+        else:
+            self.cola = self.ids[num_players:]
         self.groupers = grouper(first, 2)
         self.groups: dict = dict(enumerate([list(x) for x in self.groupers]))
-        print(self.groups, self.cola)
 
     def run_test(self):
         for _ in range(40):
@@ -39,6 +79,7 @@ class Masnou:
             key=lambda x: x[2],
             reverse=True,
         )
+
     def find_player(self, id) -> int:
         for index, player in enumerate(self.table):
             if player["id"] == id:
@@ -80,6 +121,7 @@ class Masnou:
         return None
 
     def groups_to_table(self):
+        print(self.table)
         table = []
         for row in self.groups:
             table.append(
@@ -132,8 +174,8 @@ class Masnou:
         winner_id = self.groups[spot][winner]
         white = self.groups[spot][0]
         black = self.groups[spot][1]
-        print(white, black, "testing output")
         outcome = self.get_outcome(winner)
+        self.cola.append(loser_id)
         # in case sides are swaped to white the winner will take white
         if self.side == "white":
             self.groups[spot][0] = winner_id
@@ -142,7 +184,6 @@ class Masnou:
             self.groups[spot][0] = self.cola[0]
             self.groups[spot][1] = winner_id
         self.cola.pop(0)
-        self.cola.append(loser_id)
         self.table[self.find_player(winner_id)]["score"] += 1
         self.table[self.find_player(winner_id)]["matches"].append(
             {"w": white, "b": black, "result": "w", "time": 2, "outcome": outcome}
@@ -150,9 +191,6 @@ class Masnou:
         self.table[self.find_player(loser_id)]["matches"].append(
             {"w": white, "b": black, "result": "l", "time": 2, "outcome": outcome}
         )
-
-        # print(self.table)
-        print(self.get_cola_names())
         self.rounds_history.append(
             [
                 spot,
@@ -164,8 +202,6 @@ class Masnou:
                 self.get_name_from_id(black),
             ]
         )
-        print(hex(id(self.rounds_history)))
-        print(self.rounds_history)
 
     def get_outcome(self, winner: int):
         outcome = ""
@@ -181,3 +217,40 @@ class Masnou:
         self.table = []
         self.groups = {}
         self.cola = []
+
+    def create_pairings(self, number_pairings):
+        groups = []
+        pairings = {}
+        # stores players. in case the number of players in the category is odd it will remove a player from the category
+        temporary_leftover = []
+        for player in self.players[0:number_pairings]:
+            if player["Category"] not in pairings:
+                pairings[player["Category"]] = []
+                pairings[player["Category"]].append(player["ID_no"])
+            else:
+                pairings[player["Category"]].append(player["ID_no"])
+        for category, players in pairings.items():
+            if len(players) % 2 != 0:
+                temporary_leftover.append(players.pop(0))
+            if len(players) > 0:
+                category_groups = grouper(players, 2)
+                for group in category_groups:
+                    groups.append(list(group))
+        # take the temporary leftover if any and
+        if len(temporary_leftover) == 1:
+            self.cola.append(temporary_leftover.pop(0))
+        if len(temporary_leftover) > 1 and len(temporary_leftover) % 2 != 0:
+            self.cola.append(temporary_leftover.pop(0))
+            leftover_groups = grouper(temporary_leftover, 2)
+            for group in leftover_groups:
+                groups.append(list(group))
+            temporary_leftover = []
+        if len(temporary_leftover) > 0 and len(temporary_leftover) % 2 == 0:
+            leftover_groups = grouper(temporary_leftover, 2)
+            for group in leftover_groups:
+                groups.append(list(group))
+        self.groups = dict(enumerate(groups))
+        self.cola = self.cola + [
+            player["ID_no"] for player in self.players[number_pairings:]
+        ]
+        print(self.cola)
